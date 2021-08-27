@@ -1,16 +1,23 @@
 import fastapi
 import uvicorn
+import os
+from pathlib import Path
 
+from api import general, prediction
 
-from api import general
 
 api = fastapi.FastAPI()
 
-# what is an API? https://rapidapi.com/blog/api-vs-web-service/
-
 
 api.include_router(general.router)
+api.include_router(prediction.router)
 
 
 if __name__ == '__main__':
-    uvicorn.run(api, host='127.0.0.1', port=80)
+
+    abs_path = os.getcwd()
+
+    PATH = '/'.join(str(Path(__file__).absolute()).split('/')[:-1])
+    os.chdir(PATH)
+
+    uvicorn.run(api, host='0.0.0.0', port=80)

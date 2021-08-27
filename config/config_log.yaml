@@ -1,0 +1,43 @@
+# https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html
+
+version: 1
+disable_existing_loggers: true
+
+formatters:
+    standard:
+        format: "%(asctime)s - %(name)s - %(filename)s - %(levelname)s - %(message)s"
+    json_format:
+        class: pythonjsonlogger.jsonlogger.JsonFormatter
+        format: "%(asctime)s %(name)s %(filename)s %(levelname)s %(message)s"
+
+handlers:
+    debug_console:
+        class: logging.StreamHandler
+        level: DEBUG    
+        formatter: json_format
+        stream: ext://sys.stdout
+
+    info_console:
+        class: logging.StreamHandler
+        level: INFO    
+        formatter: json_format
+        stream: ext://sys.stdout
+
+    error_console:
+        class: logging.StreamHandler
+        level: ERROR    
+        formatter: json_format
+        stream: ext://sys.stdout
+
+loggers:
+    integration:
+        level: DEBUG
+        handlers: [debug_console]
+
+    uat:
+        level: DEBUG
+        handlers: [debug_console]
+
+    prod:
+        level: DEBUG
+        handlers: [info_console]
